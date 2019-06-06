@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\RandomProduct.Models\RandomProduct.Models.csproj" />
     <ProjectReference Include="..\RandomProduct.Core\RandomProduct.Core.csproj" />
+    <ProjectReference Include="..\RandomProduct.Models\RandomProduct.Models.csproj" />
   </ItemGroup>
 
 </Project>
