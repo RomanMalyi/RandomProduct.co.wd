@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using RandomProduct.Core;
 using RandomProduct.Models;
 using Xunit;
@@ -39,6 +40,16 @@ namespace RandomProduct.Test
             _basketManager.AddItem(_basketItems[2]);
 
             Assert.Equal(true, _basketManager.Display().Discounts.Contains(DataHelper.LargeBowlOfTrifleDiscountName));
+        }
+
+        [Fact]
+        public void PriceTest()
+        {
+            _basketManager.AddItem(_basketItems[0]);
+            _basketManager.AddItem(_basketItems[1]);
+            _basketManager.AddItem(_basketItems[2]);
+
+            Assert.Equal(634, Math.Round(_basketManager.Display().GrandTotalPrice,2));
         }
     }
 }

@@ -104,7 +104,6 @@ namespace RandomProduct.Test
                         {
                             basket.Items.Add(bonusItem);
                         }
-                        basket.GrandTotalPrice -= discountedItemCount * bonusItem.Product.Price;
                     },LargeBowlOfTrifleDiscountName),
                 new Discount(item => item.Product.Id == "RP-5NS-DITB" && item.ProductsCount >= 100,
                     (basket) => { basket.GrandTotalPrice -= basket.GrandTotalPrice * 0.3f; },
