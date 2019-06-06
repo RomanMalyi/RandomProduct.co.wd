@@ -2,3 +2,6 @@ RandomProduct.Models/obj/
 src/.vs/
 src/RandomProduct.Core/obj/
 src/RandomProduct.Test/obj/
+RandomProduct.Models/bin/
+src/RandomProduct.Core/bin/
+src/RandomProduct.Test/bin/
