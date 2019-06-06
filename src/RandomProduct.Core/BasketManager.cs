@@ -7,10 +7,12 @@ namespace RandomProduct.Core
     public class BasketManager
     {
         private readonly Basket _basket;
+        private readonly DiscountManager _discountManager;
 
-        public BasketManager()
+        public BasketManager(DiscountManager discountManager)
         {
             _basket = new Basket();
+            _discountManager = discountManager;
         }
 
         public void AddItem(BasketItem item)
@@ -40,13 +42,24 @@ namespace RandomProduct.Core
         public void ClearBasket()
         {
             _basket.Items.Clear();
-            _basket.TotalPrice = 0;
+            _basket.SubTotalPrice = 0;
+            _basket.GrandTotalPrice = 0;
         }
 
         public BasketView Display()
         {
-            var result = new BasketView();
+            _basket.SubTotalPrice = 0;
+            _basket.GrandTotalPrice = 0;
 
+            foreach (var item in _basket.Items)
+            {
+                _basket.SubTotalPrice += item.ProductsCount * item.Product.Price;
+            }
+            _basket.GrandTotalPrice = _basket.SubTotalPrice;
+
+            _discountManager.ApplyDiscounts(_basket);
+
+            var result = new BasketView();
             foreach (var item in _basket.Items)
             {
                 var itemPrice = item.ProductsCount * item.Product.Price;
@@ -56,8 +69,11 @@ namespace RandomProduct.Core
                     ProductsCount = item.ProductsCount,
                     ItemPrice = itemPrice
                 });
-                result.SubTotalPrice += itemPrice;
             }
+
+            result.Discounts = _basket.Discounts;
+            result.SubTotalPrice = _basket.SubTotalPrice;
+            result.GrandTotalPrice = _basket.GrandTotalPrice;
 
             return result;
         }
