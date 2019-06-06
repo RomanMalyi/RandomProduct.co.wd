@@ -48,17 +48,15 @@ namespace RandomProduct.Core
 
         public BasketView Display()
         {
-            _basket.SubTotalPrice = 0;
-            _basket.GrandTotalPrice = 0;
-
-            foreach (var item in _basket.Items)
-            {
-                _basket.SubTotalPrice += item.ProductsCount * item.Product.Price;
-            }
-            _basket.GrandTotalPrice = _basket.SubTotalPrice;
-
+            CalculateSubPrice();
             _discountManager.ApplyDiscounts(_basket);
 
+            var result = ConvertBasketToView();
+            return result;
+        }
+
+        private BasketView ConvertBasketToView()
+        {
             var result = new BasketView();
             foreach (var item in _basket.Items)
             {
@@ -76,6 +74,18 @@ namespace RandomProduct.Core
             result.GrandTotalPrice = _basket.GrandTotalPrice;
 
             return result;
+        }
+
+        private void CalculateSubPrice()
+        {
+            _basket.SubTotalPrice = 0;
+            _basket.GrandTotalPrice = 0;
+
+            foreach (var item in _basket.Items)
+            {
+                _basket.SubTotalPrice += item.ProductsCount * item.Product.Price;
+            }
+            _basket.GrandTotalPrice = _basket.SubTotalPrice;
         }
     }
 }
