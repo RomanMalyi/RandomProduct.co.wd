@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-using RandomProduct.Models;
+using RandomProduct.Core.Abstractions.Domain;
 
-namespace RandomProduct.Core
+namespace RandomProduct.Domain
 {
     public class DiscountManager
     {
-        private readonly List<IBaseDiscount> _discounts;
+        private readonly List<IDiscount> _discounts;
 
-        public DiscountManager(List<IBaseDiscount> discounts)
+        public DiscountManager(List<IDiscount> discounts)
         {
             _discounts = discounts;
         }
@@ -18,7 +18,6 @@ namespace RandomProduct.Core
             {
                 if (!discount.IsDiscountConditionsSatisfied(basket)) continue;
                 discount.ApplyDiscount(basket);
-                basket.Discounts.Add(discount.Name);
             }
         }
     }

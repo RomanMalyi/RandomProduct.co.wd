@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using RandomProduct.Core;
+using RandomProduct.Core.Abstractions.Domain;
+using RandomProduct.Domain;
 using RandomProduct.Models;
 
 namespace RandomProduct.Test
@@ -12,100 +13,83 @@ namespace RandomProduct.Test
         public static string BagsOfPogsDiscountName = "Buy 2 or more Bags of Pogs and get 50% off each bag (excluding the first one).";
 
 
-        public BasketManager GetBasketManager()
+        public Basket GetBasketManager()
         {
-            return new BasketManager(new DiscountManager(CreateDiscounts()));
+            return new Basket(new DiscountManager(CreateDiscounts()));
         }
 
-        public List<BasketItem> GetBasketItem()
+        public IList<IProduct> GetProducts()
         {
-            return new List<BasketItem>()
+            return new List<IProduct>()
             {
-                new BasketItem()
+                new Product()
                 {
-                    Product = new Product()
-                    {
-                        Id = "RP-5NS-DITB",
-                        Name = "Shurikens",
-                        Description = "5 pointed Shurikens made from stainless steel.",
-                        Price = 8.95f
-                    },
-                    ProductsCount = 100
+                    Id = "RP-5NS-DITB",
+                    Name = "Shurikens",
+                    Description = "5 pointed Shurikens made from stainless steel.",
+                    Price = 8.95f
                 },
-                new BasketItem()
+
+                new Product()
                 {
-                    Product = new Product()
-                    {
-                        Id = "RP-25D-SITB",
-                        Name = "Bag of Pogs",
-                        Description = "25 Random pogs designs.",
-                        Price = 5.31f
-                    },
-                    ProductsCount = 2
+                    Id = "RP-25D-SITB",
+                    Name = "Bag of Pogs",
+                    Description = "25 Random pogs designs.",
+                    Price = 5.31f
                 },
-                new BasketItem()
+
+                new Product()
                 {
-                    Product = new Product()
-                    {
-                        Id = "RP-1TB-EITB",
-                        Name = "Large bowl of Trifle",
-                        Description = "Large collectors edition bowl of Trifle.",
-                        Price = 2.75f
-                    },
-                    ProductsCount = 1
+                    Id = "RP-1TB-EITB",
+                    Name = "Large bowl of Trifle",
+                    Description = "Large collectors edition bowl of Trifle.",
+                    Price = 2.75f
                 },
-                new BasketItem()
+
+                new Product()
                 {
-                    Product = new Product()
-                    {
-                        Id = "RP-RPM-FITB",
-                        Name = "Paper Mask",
-                        Description = "Randomly selected paper mask.",
-                        Price = 0.30f
-                    },
-                    ProductsCount = 1
+                    Id = "RP-RPM-FITB",
+                    Name = "Paper Mask",
+                    Description = "Randomly selected paper mask.",
+                    Price = 0.30f
                 }
             };
         }
 
-        private List<IBaseDiscount> CreateDiscounts()
+        private List<IDiscount> CreateDiscounts()
         {
-            return new List<IBaseDiscount>()
+            return new List<IDiscount>()
             {
-                new Discount(item => item.Product.Id == "RP-25D-SITB" && item.ProductsCount > 1,
+                new Discount(item =>item.Items.Any(i=>i.Id == "RP-25D-SITB" && i.ProductsCount > 1) ,
                     (basket) =>
                     {
-                        var item = basket.Items.FirstOrDefault(i => i.Product.Id == "RP-25D-SITB");
+                        var item = basket.Items.FirstOrDefault(i => i.Id == "RP-25D-SITB");
 
-                        if (item != null) basket.GrandTotalPrice -= (item.ProductsCount - 1) * (item.Product.Price / 2);
+                        if (item != null) basket.GrandTotalPrice -= (item.ProductsCount - 1) * (item.Price / 2);
                     },BagsOfPogsDiscountName
                     ),
-                new Discount(item => item.Product.Id == "RP-1TB-EITB" && item.ProductsCount > 0,
+                new Discount(item =>item.Items.Any(i=>i.Id == "RP-1TB-EITB" && i.ProductsCount > 0),
                     (basket) =>
                     {
-                        var discountedItemCount = basket.Items.FirstOrDefault(i => i.Product.Id == "RP-1TB-EITB").ProductsCount;
-                        var bonusItem = new BasketItem()
+                        var discountedItemCount = basket.Items.FirstOrDefault(i => i.Id == "RP-1TB-EITB").ProductsCount;
+                        var bonusProduct = new Product()
                         {
-                            Product = new Product()
-                            {
-                                Id = "RP-RPM-FITB",
-                                Name = "Paper Mask",
-                                Description = "Randomly selected paper mask.",
-                                Price = 0.30f
-                            },
-                            ProductsCount = discountedItemCount
+                            Id = "RP-RPM-FITB",
+                            Name = "Paper Mask",
+                            Description = "Randomly selected paper mask.",
+                            Price = 0.30f
                         };
-                        var existingItem = basket.Items.FirstOrDefault(i => i.Product.Id == bonusItem.Product.Id);
+                        var existingItem = basket.Items.FirstOrDefault(i => i.Id == bonusProduct.Id);
                         if (existingItem != null)
                         {
-                            existingItem.ProductsCount += bonusItem.ProductsCount;
+                            existingItem.ProductsCount += discountedItemCount;
                         }
                         else
                         {
-                            basket.Items.Add(bonusItem);
+                            basket.AddItem(bonusProduct, discountedItemCount);
                         }
                     },LargeBowlOfTrifleDiscountName),
-                new Discount(item => item.Product.Id == "RP-5NS-DITB" && item.ProductsCount >= 100,
+                new Discount(item =>item.Items.Any(i=>i.Id == "RP-5NS-DITB" && i.ProductsCount >= 100),
                     (basket) => { basket.GrandTotalPrice -= basket.GrandTotalPrice * 0.3f; },
                     ShurikensDiscountName)
             };

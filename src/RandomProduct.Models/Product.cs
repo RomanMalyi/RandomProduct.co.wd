@@ -1,6 +1,8 @@
-﻿namespace RandomProduct.Models
+﻿using RandomProduct.Core.Abstractions.Domain;
+
+namespace RandomProduct.Models
 {
-    public class Product
+    public class Product : IProduct
     {
         public string Id { get; set; }
         public string Name { get; set; }

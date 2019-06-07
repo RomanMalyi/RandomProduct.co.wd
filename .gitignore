@@ -7,3 +7,5 @@ src/RandomProduct.Core/bin/
 src/RandomProduct.Test/bin/
 src/RandomProduct.Models/obj/
 src/RandomProduct.Models/bin/
+src/RandomProduct.Domain/bin/
+src/RandomProduct.Domain/obj/
