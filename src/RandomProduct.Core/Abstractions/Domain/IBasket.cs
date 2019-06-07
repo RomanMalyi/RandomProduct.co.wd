@@ -11,6 +11,6 @@ namespace RandomProduct.Core.Abstractions.Domain
         void RemoveItem(string id);
         void ClearBasket();
         IBasketModel GetBasketModel();
-        void AddDiscount(IDiscount discount);
+        void AddDiscountName(IDiscount discount);
     }
 }

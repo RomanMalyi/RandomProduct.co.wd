@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using RandomProduct.Core.Abstractions.Domain;
 using RandomProduct.Domain;
 using Xunit;

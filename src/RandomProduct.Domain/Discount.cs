@@ -1,7 +1,7 @@
 ﻿using System;
 using RandomProduct.Core.Abstractions.Domain;
 
-namespace RandomProduct.Models
+namespace RandomProduct.Domain
 {
     public class Discount : IDiscount
     {
@@ -24,7 +24,6 @@ namespace RandomProduct.Models
         public void ApplyDiscount(IBasket basket)
         {
             _applyDiscount(basket);
-            basket.AddDiscount(this);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace RandomProduct.Models
     public class BasketModel: IBasketModel
     {
         public IList<IBasketItemModel> Items { get; set; }
-        public IList<string> Discounts { get; set; }
+        public IEnumerable<string> Discounts { get; set; }
         public float SubTotalPrice { get; set; }
         public float GrandTotalPrice { get; set; }
 

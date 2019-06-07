@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RandomProduct.Core.Abstractions.Domain;
 using RandomProduct.Core.Abstractions.Models;
+using RandomProduct.Core.Abstractions.Services;
 using RandomProduct.Models;
 
 namespace RandomProduct.Domain
@@ -10,13 +11,13 @@ namespace RandomProduct.Domain
     public class Basket : IBasket
     {
         private readonly IList<string> _discounts;
-        private readonly DiscountManager _discountManager;
+        private readonly IDiscountManager _discountManager;
         private float _subTotalPrice;
         private readonly IList<IBasketItem> _items;
         public float GrandTotalPrice { get; set; }
         public IReadOnlyList<IBasketItem> Items => _items.ToList();
 
-        public Basket(DiscountManager discountManager)
+        public Basket(IDiscountManager discountManager)
         {
             _items = new List<IBasketItem>();
             _discounts = new List<string>();
@@ -69,7 +70,7 @@ namespace RandomProduct.Domain
             return result;
         }
 
-        public void AddDiscount(IDiscount discount)
+        public void AddDiscountName(IDiscount discount)
         {
             _discounts.Add(discount.Name);
         }

@@ -2,7 +2,6 @@
 using System.Linq;
 using RandomProduct.Core.Abstractions.Domain;
 using RandomProduct.Domain;
-using RandomProduct.Models;
 
 namespace RandomProduct.Test
 {
@@ -56,7 +55,7 @@ namespace RandomProduct.Test
             };
         }
 
-        private List<IDiscount> CreateDiscounts()
+        private IEnumerable<IDiscount> CreateDiscounts()
         {
             return new List<IDiscount>()
             {

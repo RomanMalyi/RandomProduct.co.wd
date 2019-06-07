@@ -1,6 +1,6 @@
 ﻿using RandomProduct.Core.Abstractions.Domain;
 
-namespace RandomProduct.Models
+namespace RandomProduct.Domain
 {
     public class Product : IProduct
     {
