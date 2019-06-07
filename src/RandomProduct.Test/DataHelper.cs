@@ -7,11 +7,6 @@ namespace RandomProduct.Test
 {
     public class DataHelper
     {
-        public static string ShurikensDiscountName = "Buy 100 or more Shurikens and get 30% off whole basket.";
-        public static string LargeBowlOfTrifleDiscountName = "Buy a Large bowl of Trifle and get a free Paper Mask.";
-        public static string BagsOfPogsDiscountName = "Buy 2 or more Bags of Pogs and get 50% off each bag (excluding the first one).";
-
-
         public Basket GetBasketManager()
         {
             return new Basket(new DiscountManager(CreateDiscounts()));
