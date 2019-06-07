@@ -24,7 +24,7 @@ namespace RandomProduct.Models
         public void ApplyDiscount(IBasket basket)
         {
             _applyDiscount(basket);
-            basket.Discounts.Add(Name);
+            basket.AddDiscount(this);
         }
     }
 }

@@ -23,7 +23,7 @@ namespace RandomProduct.Test
         {
             _basketManager.AddItem(_products[0],100);
 
-            Assert.Equal(true, _basketManager.Display().Discounts.Contains(DataHelper.ShurikensDiscountName));
+            Assert.Equal(true, _basketManager.GetBasketModel().Discounts.Contains(DataHelper.ShurikensDiscountName));
         }
 
         [Fact]
@@ -31,7 +31,7 @@ namespace RandomProduct.Test
         {
             _basketManager.AddItem(_products[1],2);
 
-            Assert.Equal(true, _basketManager.Display().Discounts.Contains(DataHelper.BagsOfPogsDiscountName)); 
+            Assert.Equal(true, _basketManager.GetBasketModel().Discounts.Contains(DataHelper.BagsOfPogsDiscountName)); 
         }
 
         [Fact]
@@ -39,7 +39,7 @@ namespace RandomProduct.Test
         {
             _basketManager.AddItem(_products[2],1);
 
-            Assert.Equal(true, _basketManager.Display().Discounts.Contains(DataHelper.LargeBowlOfTrifleDiscountName));
+            Assert.Equal(true, _basketManager.GetBasketModel().Discounts.Contains(DataHelper.LargeBowlOfTrifleDiscountName));
         }
 
         [Fact]
@@ -49,7 +49,7 @@ namespace RandomProduct.Test
             _basketManager.AddItem(_products[1],2);
             _basketManager.AddItem(_products[2],1);
 
-            Assert.Equal(634, Math.Round(_basketManager.Display().GrandTotalPrice,2));
+            Assert.Equal(634, Math.Round(_basketManager.GetBasketModel().GrandTotalPrice,2));
         }
     }
 }

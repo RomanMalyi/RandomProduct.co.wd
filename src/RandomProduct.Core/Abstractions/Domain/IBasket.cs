@@ -5,12 +5,12 @@ namespace RandomProduct.Core.Abstractions.Domain
 {
     public interface IBasket
     {
-        IList<IBasketItem> Items { get; }
-        IList<string> Discounts { get; set; }
+        IReadOnlyList<IBasketItem> Items { get; }
         float GrandTotalPrice { get; set; }
         void AddItem(IProduct product, int productsCount);
         void RemoveItem(string id);
         void ClearBasket();
-        IBasketModel Display();
+        IBasketModel GetBasketModel();
+        void AddDiscount(IDiscount discount);
     }
 }
