@@ -1,4 +1,4 @@
-﻿using RandomProduct.Core.Abstractions.Domain;
+﻿using RandomProduct.Domain.Abstractions.Domain;
 
 namespace RandomProduct.Domain
 {

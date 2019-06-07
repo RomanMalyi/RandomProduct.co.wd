@@ -1,4 +1,4 @@
-﻿namespace RandomProduct.Core.Abstractions.Domain
+﻿namespace RandomProduct.Domain.Abstractions.Domain
 {
     public interface IProduct
     {

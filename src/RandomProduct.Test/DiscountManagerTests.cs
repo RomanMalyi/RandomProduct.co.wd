@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using RandomProduct.Core.Abstractions.Domain;
 using RandomProduct.Domain;
+using RandomProduct.Domain.Abstractions.Domain;
 using Xunit;
 
 namespace RandomProduct.Test
@@ -22,35 +21,53 @@ namespace RandomProduct.Test
         [Fact]
         public void ShurikensDiscountTest()
         {
-            _basketManager.AddItem(_products[0],100);
+            _basketManager.Add(_products[0], 100);
 
-            Assert.Equal(true, _basketManager.GetBasketModel().Discounts.Contains(DataHelper.ShurikensDiscountName));
+            Assert.Equal(626.5, Math.Round(_basketManager.GrandTotalPrice, 2));
         }
 
         [Fact]
         public void BagsOfPogsDiscountTest()
         {
-            _basketManager.AddItem(_products[1],2);
+            _basketManager.Add(_products[1], 2);
 
-            Assert.Equal(true, _basketManager.GetBasketModel().Discounts.Contains(DataHelper.BagsOfPogsDiscountName)); 
+            Assert.Equal(7.97, Math.Round(_basketManager.GrandTotalPrice, 2));
         }
 
         [Fact]
         public void LargeBowlOfTrifleDiscountTest()
         {
-            _basketManager.AddItem(_products[2],1);
+            _basketManager.Add(_products[2], 1);
 
-            Assert.Equal(true, _basketManager.GetBasketModel().Discounts.Contains(DataHelper.LargeBowlOfTrifleDiscountName));
+            Assert.Equal(2.75, Math.Round(_basketManager.GrandTotalPrice, 2));
         }
 
         [Fact]
         public void PriceTest()
         {
-            _basketManager.AddItem(_products[0],100);
-            _basketManager.AddItem(_products[1],2);
-            _basketManager.AddItem(_products[2],1);
+            _basketManager.Add(_products[0],100);
+            _basketManager.Add(_products[1],2);
+            _basketManager.Add(_products[2],1);
 
-            Assert.Equal(634, Math.Round(_basketManager.GetBasketModel().GrandTotalPrice,2));
+            Assert.Equal(634, Math.Round(_basketManager.GrandTotalPrice, 2));
+        }
+
+        [Fact]
+        public void BagsOfPogsDiscountCencelTest()
+        {
+            _basketManager.Add(_products[1], 2);
+            _basketManager.Remove(_products[1].Id,1);
+
+            Assert.Equal(5.31, Math.Round(_basketManager.GrandTotalPrice, 2));
+        }
+
+        [Fact]
+        public void LargeBowlOfTrifleDiscountCencelTest()
+        {
+            _basketManager.Add(_products[2], 1);
+            _basketManager.Remove(_products[2].Id, 1);
+
+            Assert.Equal(0, _basketManager.Items.Count);
         }
     }
 }

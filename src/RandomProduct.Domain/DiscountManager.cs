@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using RandomProduct.Core.Abstractions.Domain;
-using RandomProduct.Core.Abstractions.Services;
+using RandomProduct.Domain.Abstractions.Domain;
+using RandomProduct.Domain.Abstractions.Services;
 
 namespace RandomProduct.Domain
 {
@@ -19,8 +19,16 @@ namespace RandomProduct.Domain
             foreach (var discount in _discounts)
             {
                 if (!discount.IsDiscountConditionsSatisfied(basket)) continue;
-                discount.ApplyDiscount(basket);
-                basket.AddDiscountName(discount);
+                basket.AddDiscount(discount);
+            }
+        }
+
+        public void CancelDiscounts(IList<string> discounts, IBasket basket)
+        {
+            for (var i = discounts.Count-1; i >= 0; --i)
+            {
+                var discount = _discounts.First(e => e.Name == discounts[i]);
+                basket.CancelDiscount(discount);
             }
         }
     }

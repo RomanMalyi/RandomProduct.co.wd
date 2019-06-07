@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using RandomProduct.Core.Abstractions.Domain;
 using RandomProduct.Domain;
+using RandomProduct.Domain.Abstractions.Domain;
+using RandomProduct.Domain.Discounts;
 
 namespace RandomProduct.Test
 {
@@ -59,38 +59,9 @@ namespace RandomProduct.Test
         {
             return new List<IDiscount>()
             {
-                new Discount(item =>item.Items.Any(i=>i.Id == "RP-25D-SITB" && i.ProductsCount > 1) ,
-                    (basket) =>
-                    {
-                        var item = basket.Items.FirstOrDefault(i => i.Id == "RP-25D-SITB");
-
-                        if (item != null) basket.GrandTotalPrice -= (item.ProductsCount - 1) * (item.Price / 2);
-                    },BagsOfPogsDiscountName
-                    ),
-                new Discount(item =>item.Items.Any(i=>i.Id == "RP-1TB-EITB" && i.ProductsCount > 0),
-                    (basket) =>
-                    {
-                        var discountedItemCount = basket.Items.FirstOrDefault(i => i.Id == "RP-1TB-EITB").ProductsCount;
-                        var bonusProduct = new Product()
-                        {
-                            Id = "RP-RPM-FITB",
-                            Name = "Paper Mask",
-                            Description = "Randomly selected paper mask.",
-                            Price = 0.30f
-                        };
-                        var existingItem = basket.Items.FirstOrDefault(i => i.Id == bonusProduct.Id);
-                        if (existingItem != null)
-                        {
-                            existingItem.ProductsCount += discountedItemCount;
-                        }
-                        else
-                        {
-                            basket.AddItem(bonusProduct, discountedItemCount);
-                        }
-                    },LargeBowlOfTrifleDiscountName),
-                new Discount(item =>item.Items.Any(i=>i.Id == "RP-5NS-DITB" && i.ProductsCount >= 100),
-                    (basket) => { basket.GrandTotalPrice -= basket.GrandTotalPrice * 0.3f; },
-                    ShurikensDiscountName)
+                new BagsOfPogsDiscount(),
+                new LargeBowlOfTrifleDiscount(),
+                new ShurikensDiscount()
             };
         }
     }

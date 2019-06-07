@@ -1,8 +1,6 @@
-﻿using RandomProduct.Core.Abstractions.Domain;
-
-namespace RandomProduct.Domain
+﻿namespace RandomProduct.Domain
 {
-    public class BasketItem : IBasketItem
+    public class BasketItem 
     {
         public string Id { get; set; }
         public string Name { get; set; }
