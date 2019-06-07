@@ -43,7 +43,7 @@ namespace RandomProduct.Domain
             GrandTotalPrice = 0;
         }
 
-        public void AddDiscount(IDiscount discount)
+        public void ApplyDiscount(IDiscount discount)
         {
             GrandTotalPrice = discount.ApplyDiscount(this);
             _discounts.Add(discount.Name);

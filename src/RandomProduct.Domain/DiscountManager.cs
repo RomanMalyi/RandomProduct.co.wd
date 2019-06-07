@@ -19,7 +19,7 @@ namespace RandomProduct.Domain
             foreach (var discount in _discounts)
             {
                 if (!discount.IsDiscountConditionsSatisfied(basket)) continue;
-                basket.AddDiscount(discount);
+                basket.ApplyDiscount(discount);
             }
         }
 

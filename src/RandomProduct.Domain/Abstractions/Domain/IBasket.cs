@@ -11,7 +11,7 @@ namespace RandomProduct.Domain.Abstractions.Domain
         void AddBonusProduct(IProduct product, int productsCount);
         void RemoveBonusProduct(string id, int productsCount);
         void ClearBasket();
-        void AddDiscount(IDiscount discount);
+        void ApplyDiscount(IDiscount discount);
         void CancelDiscount(IDiscount discount);
     }
 }
