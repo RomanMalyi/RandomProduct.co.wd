@@ -11,14 +11,15 @@ namespace RandomProduct.Domain
         private readonly IDiscountManager _discountManager;
         private float _subTotalPrice;
         private readonly IList<BasketItem> _items;
-        public IList<string> Discounts { get; }
+        private readonly IList<string> _discounts;
         public float GrandTotalPrice { get; private set; }
         public IReadOnlyList<BasketItem> Items => _items.ToList();
+        public IReadOnlyList<string> Discounts => _discounts.ToList();
 
         public Basket(IDiscountManager discountManager)
         {
             _items = new List<BasketItem>();
-            Discounts = new List<string>();
+            _discounts = new List<string>();
             _discountManager = discountManager;
         }
 
@@ -30,7 +31,7 @@ namespace RandomProduct.Domain
 
         public void Remove(string id, int productsCount)
         {
-            _discountManager.CancelDiscounts(Discounts, this);
+            _discountManager.CancelDiscounts(_discounts, this);
             RemoveItem(id, productsCount);
             CalculatePrice();
         }
@@ -38,7 +39,7 @@ namespace RandomProduct.Domain
         public void ClearBasket()
         {
             _items.Clear();
-            Discounts.Clear();
+            _discounts.Clear();
             _subTotalPrice = 0;
             GrandTotalPrice = 0;
         }
@@ -46,13 +47,13 @@ namespace RandomProduct.Domain
         public void ApplyDiscount(IDiscount discount)
         {
             GrandTotalPrice = discount.ApplyDiscount(this);
-            Discounts.Add(discount.Name);
+            _discounts.Add(discount.Name);
         }
 
         public void CancelDiscount(IDiscount discount)
         {
             GrandTotalPrice = discount.CancelDiscount(this);
-            Discounts.Remove(discount.Name);
+            _discounts.Remove(discount.Name);
         }
 
         public void AddBonusProduct(IProduct product, int productsCount)
@@ -106,9 +107,9 @@ namespace RandomProduct.Domain
 
         private void CalculatePrice()
         {
-            if (Discounts.Count > 0)
+            if (_discounts.Count > 0)
             {
-                _discountManager.CancelDiscounts(Discounts, this);
+                _discountManager.CancelDiscounts(_discounts, this);
 
             }
             _subTotalPrice = 0;

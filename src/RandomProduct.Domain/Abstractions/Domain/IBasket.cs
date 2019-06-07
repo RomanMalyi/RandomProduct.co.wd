@@ -4,7 +4,7 @@ namespace RandomProduct.Domain.Abstractions.Domain
 {
     public interface IBasket
     {
-        IList<string> Discounts { get; }
+        IReadOnlyList<string> Discounts { get; }
         IReadOnlyList<BasketItem> Items { get; }
         float GrandTotalPrice { get; }
         void Add(IProduct product, int productsCount);
