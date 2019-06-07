@@ -8,10 +8,10 @@ namespace RandomProduct.Domain
 {
     public class Basket : IBasket
     {
-        public IList<string> Discounts { get; }
         private readonly IDiscountManager _discountManager;
         private float _subTotalPrice;
         private readonly IList<BasketItem> _items;
+        public IList<string> Discounts { get; }
         public float GrandTotalPrice { get; private set; }
         public IReadOnlyList<BasketItem> Items => _items.ToList();
 
